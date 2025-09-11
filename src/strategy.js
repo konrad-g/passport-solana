@@ -6,10 +6,10 @@ const bs58 = require('bs58');
  * `Strategy` constructor.
  *
  * The Solana web3 strategy works by having the user sign a message using
- * their Solana wallet. We take the signed message and decode the address 
- * it was signed with. If the decoded address matches the address they are 
+ * their Solana wallet. We take the signed message and decode the address
+ * it was signed with. If the decoded address matches the address they are
  * trying to sign in with, we authorize the user.
- * 
+ *
  * Applications must supply a `onAuth` callback
  *
  * Example:
@@ -27,7 +27,7 @@ const bs58 = require('bs58');
  */
 class Strategy extends passport.Strategy {
   constructor(options, onAuth) {
-    if (typeof options == 'function') {
+    if (typeof options === 'function') {
       onAuth = options;
       options = {};
     }
@@ -58,7 +58,7 @@ class Strategy extends passport.Strategy {
       const verified = nacl.sign.detached.verify(
         new TextEncoder().encode(msg),
         bs58.decode(signed),
-        bs58.decode(address)
+        bs58.decode(address),
       );
 
       if (!verified) {
@@ -80,7 +80,7 @@ class Strategy extends passport.Strategy {
   getCredentials(req) {
     const { body, query } = req;
     const paramKeys = ['address', 'msg', 'signed'];
-    const hasAll = (obj) => obj && paramKeys.every(key => Object.prototype.hasOwnProperty.call(obj, key));
+    const hasAll = obj => obj && paramKeys.every(key => Object.prototype.hasOwnProperty.call(obj, key));
     if (hasAll(body)) return body;
     if (hasAll(query)) return query;
     return null;

@@ -3,18 +3,16 @@
 const Strategy = require('../src/strategy');
 
 
-describe('Strategy', function() {
+describe('Strategy', () => {
+  const strategy = new Strategy((() => {}));
 
-  let strategy = new Strategy(function(){});
-
-  it('should be named solana', function() {
+  it('should be named solana', () => {
     expect(strategy.name).to.equal('solana');
   });
 
-  it('should throw if constructed without a verify callback', function() {
-    expect(function() {
-      let s = new Strategy();
+  it('should throw if constructed without a verify callback', () => {
+    expect(() => {
+      const s = new Strategy();
     }).to.throw(TypeError, 'SolanaStrategy requires an onAuth callback');
   });
-
 });

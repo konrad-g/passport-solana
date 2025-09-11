@@ -1,10 +1,10 @@
-var nodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: './src/index.js',
   output: {
     filename: './dist/index.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   target: 'node',
   externals: [nodeExternals()],
@@ -19,9 +19,9 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         query: {
-          presets: ['env', 'flow']
-        }
-      }
-    ]
-  }
+          presets: ['env', 'flow'],
+        },
+      },
+    ],
+  },
 };
