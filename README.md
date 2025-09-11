@@ -2,9 +2,15 @@
 
 Solana web3 strategy for passport which authenticates the user by decoding a message
 signed with the user's Solana address, and checking if it matches the address
-that they are trying to authenticate.
+that they are trying to authenticate with.
 
-### Setup
+### Installation
+
+```bash
+npm install passport-solana
+```
+
+### Setup on the back-end
 ```js
 const SolanaStrategy = require('passport-solana');
 
@@ -23,10 +29,10 @@ const solanaStrategy = new SolanaStrategy(onAuth);
 passport.use(solanaStrategy);
 
 // endpoint
-app.post('/login', passport.authenticate('web3'));
+app.post('/log-in', passport.authenticate('solana'));
 ```
 
-### Usage (client-side)
+### Usage on the client-side
 
 ```js
 import { PublicKey, VersionedTransaction } from '@solana/web3.js';
@@ -66,3 +72,8 @@ const logIn = async () => {
   }
 }
 ```
+
+### License
+
+[The MIT License](LICENSE)  
+Copyright © 2025 Konrad Gadzinowski  

@@ -9,21 +9,21 @@ import validParams from './helpers/valid-params';
 describe('Strategy', function() {
 
   describe('handling a request with valid credentials in body', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       if (address) {
         return done(null, { id: '1234' }, { scope: 'read' });
       }
       return done(null, false);
     });
 
-    var user
-      , info;
+    let userReturned;
+    let infoReturned;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .success(function(u, i) {
-          user = u;
-          info = i;
+        .success(function(user, info) {
+          userReturned = user;
+          infoReturned = info;
           done();
         })
         .req(function(req) {
@@ -33,32 +33,32 @@ describe('Strategy', function() {
     });
 
     it('should supply user', function() {
-      expect(user).to.be.an('object');
-      expect(user.id).to.equal('1234');
+      expect(userReturned).to.be.an('object');
+      expect(userReturned.id).to.equal('1234');
     });
 
     it('should supply info', function() {
-      expect(info).to.be.an('object');
-      expect(info.scope).to.equal('read');
+      expect(infoReturned).to.be.an('object');
+      expect(infoReturned.scope).to.equal('read');
     });
   });
 
   describe('handling a request with valid credentials in query', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       if (address) {
         return done(null, { id: '1234' }, { scope: 'read' });
       }
       return done(null, false);
     });
 
-    var user
-      , info;
+    let userReturned;
+    let infoReturned;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .success(function(u, i) {
-          user = u;
-          info = i;
+        .success(function(user, info) {
+          userReturned = user;
+          infoReturned = info;
           done();
         })
         .req(function(req) {
@@ -68,52 +68,54 @@ describe('Strategy', function() {
     });
 
     it('should supply user', function() {
-      expect(user).to.be.an('object');
-      expect(user.id).to.equal('1234');
+      expect(userReturned).to.be.an('object');
+      expect(userReturned.id).to.equal('1234');
     });
 
     it('should supply info', function() {
-      expect(info).to.be.an('object');
-      expect(info.scope).to.equal('read');
+      expect(infoReturned).to.be.an('object');
+      expect(infoReturned.scope).to.equal('read');
     });
   });
 
   describe('handling a request without a body', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
-    var info, status;
+    let infoReturned;
+    let statusReturned;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .fail(function(i, s) {
-          info = i;
-          status = s;
+        .fail(function(info, status) {
+          infoReturned = info;
+          statusReturned = status;
           done();
         })
         .authenticate();
     });
 
     it('should fail with info and status', function() {
-      expect(info).to.be.an('object');
-      expect(info.message).to.equal('Missing credentials');
-      expect(status).to.equal(400);
+      expect(infoReturned).to.be.an('object');
+      expect(infoReturned.message).to.equal('Missing credentials');
+      expect(statusReturned).to.equal(400);
     });
   });
 
   describe('handling a request without a body, but no username and password', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
-    var info, status;
+    let infoReturned;
+    let statusReturned;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .fail(function(i, s) {
-          info = i;
-          status = s;
+        .fail(function(info, status) {
+          infoReturned = info;
+          statusReturned = status;
           done();
         })
         .req(function(req) {
@@ -123,24 +125,25 @@ describe('Strategy', function() {
     });
 
     it('should fail with info and status', function() {
-      expect(info).to.be.an('object');
-      expect(info.message).to.equal('Missing credentials');
-      expect(status).to.equal(400);
+      expect(infoReturned).to.be.an('object');
+      expect(infoReturned.message).to.equal('Missing credentials');
+      expect(statusReturned).to.equal(400);
     });
   });
 
   describe('handling a request with a body, but no signed message', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
-    var info, status;
+    let infoReturned;
+    let statusReturned;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .fail(function(i, s) {
-          info = i;
-          status = s;
+        .fail(function(info, status) {
+          infoReturned = info;
+          statusReturned = status;
           done();
         })
         .req(function(req) {
@@ -152,24 +155,25 @@ describe('Strategy', function() {
     });
 
     it('should fail with info and status', function() {
-      expect(info).to.be.an('object');
-      expect(info.message).to.equal('Missing credentials');
-      expect(status).to.equal(400);
+      expect(infoReturned).to.be.an('object');
+      expect(infoReturned.message).to.equal('Missing credentials');
+      expect(statusReturned).to.equal(400);
     });
   });
 
   describe('handling a request with a body, but no address', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
-    var info, status;
+    let infoReturned;
+    let statusReturned;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .fail(function(i, s) {
-          info = i;
-          status = s;
+        .fail(function(info, status) {
+          infoReturned = info;
+          statusReturned = status;
           done();
         })
         .req(function(req) {
@@ -181,9 +185,9 @@ describe('Strategy', function() {
     });
 
     it('should fail with info and status', function() {
-      expect(info).to.be.an('object');
-      expect(info.message).to.equal('Missing credentials');
-      expect(status).to.equal(400);
+      expect(infoReturned).to.be.an('object');
+      expect(infoReturned.message).to.equal('Missing credentials');
+      expect(statusReturned).to.equal(400);
     });
   });
 });

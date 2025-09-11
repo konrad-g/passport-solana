@@ -8,11 +8,11 @@ import invalidParams from './helpers/invalid-params';
 describe('Strategy', function() {
 
   describe('failing authentication', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       return done(null, false);
     });
 
-    var err, code;
+    let err, code;
 
     before(function(done) {
       chai.passport.use(strategy)
@@ -30,16 +30,16 @@ describe('Strategy', function() {
     it('should fail', function() {
       expect(err).to.be.an('object').and.have.keys('message');
       expect(err.message).to.include('Invalid signature')
-      expect(code).to.equal(400);
+      expect(code).to.equal(401);
     });
   });
 
   describe('failing authentication with info', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       return done(null, false, { message: 'authentication failed' });
     });
 
-    var err, code;
+    let err, code;
 
     before(function(done) {
       chai.passport.use(strategy)

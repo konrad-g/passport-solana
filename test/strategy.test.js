@@ -1,11 +1,11 @@
 /* global describe, it, expect */
 
-var Strategy = require('../src/strategy');
+const Strategy = require('../src/strategy');
 
 
 describe('Strategy', function() {
 
-  var strategy = new Strategy(function(){});
+  let strategy = new Strategy(function(){});
 
   it('should be named solana', function() {
     expect(strategy.name).to.equal('solana');
@@ -13,7 +13,7 @@ describe('Strategy', function() {
 
   it('should throw if constructed without a verify callback', function() {
     expect(function() {
-      var s = new Strategy();
+      let s = new Strategy();
     }).to.throw(TypeError, 'SolanaStrategy requires an onAuth callback');
   });
 

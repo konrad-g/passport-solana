@@ -1,6 +1,6 @@
 /* global describe, it, expect */
 
-var strategy = require('../src/index.js');
+const strategy = require('../src/index.js');
 
 describe('passport-solana', function() {
 

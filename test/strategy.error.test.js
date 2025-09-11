@@ -1,21 +1,21 @@
 /* global describe, it, expect, before */
 
-var chai = require('chai')
-  , Strategy = require('../src/strategy');
+const chai = require('chai');
+const Strategy = require('../src/strategy');
 
 describe('Strategy', function() {
 
   describe('encountering an error during verification', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       done(new Error('something went wrong'));
     });
 
-    var err;
+    let err;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .error(function(e) {
-          err = e;
+        .error(function(error) {
+          err = error;
           done();
         })
         .req(function(req) {
@@ -34,16 +34,16 @@ describe('Strategy', function() {
   });
 
   describe('encountering an exception during verification', function() {
-    var strategy = new Strategy(function(req, address, done, msg, signed) {
+    let strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('something went horribly wrong');
     });
 
-    var err;
+    let err;
 
     before(function(done) {
       chai.passport.use(strategy)
-        .error(function(e) {
-          err = e;
+        .error(function(error) {
+          err = error;
           done();
         })
         .req(function(req) {

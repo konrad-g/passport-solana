@@ -62,7 +62,7 @@ class Strategy extends passport.Strategy {
       );
 
       if (!verified) {
-        return this.fail({ message: 'Invalid signature' }, 400);
+        return this.fail({ message: 'Invalid signature' }, 401);
       }
 
       const done = (err, user, info) => {
@@ -72,15 +72,15 @@ class Strategy extends passport.Strategy {
       };
 
       this._onAuth(req, address, done, msg, signed);
-    } catch (ex) {
-      return this.error(ex);
+    } catch (error) {
+      return this.error(error);
     }
   }
 
   getCredentials(req) {
     const { body, query } = req;
     const paramKeys = ['address', 'msg', 'signed'];
-    const hasAll = (obj) => obj && paramKeys.every(k => Object.prototype.hasOwnProperty.call(obj, k));
+    const hasAll = (obj) => obj && paramKeys.every(key => Object.prototype.hasOwnProperty.call(obj, key));
     if (hasAll(body)) return body;
     if (hasAll(query)) return query;
     return null;
