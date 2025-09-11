@@ -9,7 +9,7 @@ import validParams from './helpers/valid-params';
 describe('Strategy', function() {
 
   describe('handling a request with valid credentials in body', function() {
-    var strategy = new Strategy(function(address, done) {
+    var strategy = new Strategy(function(req, address, done, msg, signed) {
       if (address) {
         return done(null, { id: '1234' }, { scope: 'read' });
       }
@@ -44,7 +44,7 @@ describe('Strategy', function() {
   });
 
   describe('handling a request with valid credentials in query', function() {
-    var strategy = new Strategy(function(address, done) {
+    var strategy = new Strategy(function(req, address, done, msg, signed) {
       if (address) {
         return done(null, { id: '1234' }, { scope: 'read' });
       }
@@ -79,7 +79,7 @@ describe('Strategy', function() {
   });
 
   describe('handling a request without a body', function() {
-    var strategy = new Strategy(function(address, done) {
+    var strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
@@ -103,7 +103,7 @@ describe('Strategy', function() {
   });
 
   describe('handling a request without a body, but no username and password', function() {
-    var strategy = new Strategy(function(address, done) {
+    var strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
@@ -130,7 +130,7 @@ describe('Strategy', function() {
   });
 
   describe('handling a request with a body, but no signed message', function() {
-    var strategy = new Strategy(function(address, done) {
+    var strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
@@ -159,7 +159,7 @@ describe('Strategy', function() {
   });
 
   describe('handling a request with a body, but no address', function() {
-    var strategy = new Strategy(function(address, done) {
+    var strategy = new Strategy(function(req, address, done, msg, signed) {
       throw new Error('should not be called');
     });
 
