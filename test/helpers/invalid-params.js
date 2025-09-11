@@ -1,6 +1,6 @@
 /**
  * These params should cause authorization to fail.
- * Request body for an eth address that wont match the recovered one.
+ * Request body for an Solana address that wont match the recovered one.
  */
 module.exports = {
   address: "9pPtLyrY4pszuhQLwkrdSsB3soqHge9E3Ld3mfnRaJdx",

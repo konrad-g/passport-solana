@@ -29,33 +29,40 @@ app.post('/login', passport.authenticate('web3'));
 ### Usage (client-side)
 
 ```js
-const ethUtil = require('ethereumjs-util');
+import { PublicKey, VersionedTransaction } from '@solana/web3.js';
 
-// The contents of the message can be anything
-const rawMessage = 'Some message';
-const msg = ethUtil.bufferToHex(new Buffer(rawMessage, 'utf8'));
-const address = web3.eth.accounts[0];
-const handleSignature = (err, signed) => {
-  if (!err) {
-    const fetchOpts = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }.
-      body: JSON.stringify({ address, msg, signed })
-    };
+const logIn = async () => {
+  const provider = (window as any).solflare || (window as any).phantom?.solana;
 
-    fetch('/login', fetchOpts).then(res => {
-      if (res.status >= 200 && res.status <= 300) {
-        return res.json();
-      } else {
-        throw Error(res.statusText);
-      }
-    }).then(json => {
-      // Auth succeeded
-    }).catch(err => {
-      // Auth failed
-    })
+  if (!provider?.isConnected) {
+    await provider.connect();
   }
-};
 
-web3.personal.sign(msg, address, handleSign);
+  const publicKey: PublicKey = provider.publicKey;
+  const message = "Generate here a random nonce"
+  const encodedMessage = new TextEncoder().encode(message);
+
+  // Sign message
+  const signed = await provider.signMessage(encodedMessage, 'utf8');
+
+  // Send to backend
+  const res = await fetch('/log-in', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      address: publicKey.toString(),
+      msg: message,
+      signed: bs58.encode(signed.signature),
+    })
+  });
+
+  if (res.ok) {
+    const json = await res.json();
+    console.log('✅ Logged in', json);
+    return json
+  } else {
+    console.error('❌ Login failed');
+    return null
+  }
+}
 ```

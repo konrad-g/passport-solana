@@ -19,9 +19,10 @@
     "url": "git+https://github.com/konrad-g/passport-solana.git"
   },
   "dependencies": {
-    "eth-sig-util": "^1.2.2",
+    "@solana/web3.js": "^1.98.4",
     "passport-strategy": "^1.0.0",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
     "babel-loader": "^7.1.1",
