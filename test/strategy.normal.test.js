@@ -4,7 +4,6 @@
 import chai from 'chai';
 import Strategy from '../src/strategy';
 import validParams from './helpers/valid-params';
-import invalidParams from './helpers/invalid-params';
 
 
 describe('Strategy', function() {
